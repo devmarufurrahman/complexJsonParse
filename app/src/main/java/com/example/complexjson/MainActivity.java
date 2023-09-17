@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         progressBar = findViewById(R.id.progressBar);
-//        listView = findViewById(R.id.listView);
+        listView = findViewById(R.id.listView);
         textView = findViewById(R.id.detailsTitle);
 
 
@@ -58,6 +58,21 @@ public class MainActivity extends AppCompatActivity {
                             textView.append(name);
                             textView.append("\n");
                             textView.append(phone);
+
+                            JSONArray jsonArray = response.getJSONArray("video");
+
+                            for (int i=0; i<jsonArray.length(); i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                String title = jsonObject.getString("title");
+                                String videoId = jsonObject.getString("videoId");
+
+
+                                hashMap = new HashMap<>();
+                                hashMap.put("title", title);
+                                hashMap.put("videoId", videoId);
+                                arrayList.add(hashMap);
+                            }
+
                         } catch (JSONException e) {
 //                            throw new RuntimeException(e);
                             Log.d("errorCatch", String.valueOf(e));
@@ -104,6 +119,9 @@ public class MainActivity extends AppCompatActivity {
             HashMap<String,String> hashMap1 = arrayList.get(position);
             String title1 = hashMap1.get("title");
             String videoId1 = hashMap1.get("videoId");
+
+            title.setText(title1);
+
 
 
             return myView;
